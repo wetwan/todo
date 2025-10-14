@@ -38,7 +38,11 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+       "expo-audio",
+        {
+          "microphonePermission": "Allow todo to access your microphone."
+        }
     ],
     "experiments": {
       "typedRoutes": true,
