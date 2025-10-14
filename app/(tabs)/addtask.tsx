@@ -12,6 +12,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { ThemedView } from "@/components/themed-view";
 import { useTask } from "@/store/taskStore";
+import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Addtask = () => {
@@ -19,7 +20,7 @@ const Addtask = () => {
   const [isListening, setIsListening] = useState(false);
 
   const setTask = useTask((task) => task.addTask);
-  const Task = useTask((task) => task.todos);
+  const router = useRouter();
 
   const handleTaskSubmit = async () => {
     const id = uuidv4();
@@ -32,10 +33,10 @@ const Addtask = () => {
     if (Task.title) {
       setTask(Task);
       setTitle("");
+      router.push("/");
     }
   };
 
-  console.log(Task);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ThemedView
@@ -80,7 +81,7 @@ const Addtask = () => {
               paddingBlock: 16,
             }}
           >
-            <Text className="text-white">Submit</Text>
+            <Text style={{ color: "#fff" }}>Submit</Text>
           </TouchableOpacity>
         </View>
         <Pressable
