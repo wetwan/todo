@@ -9,6 +9,7 @@ import {
   useAudioRecorder,
   useAudioRecorderState,
 } from "expo-audio";
+import { useKeepAwake } from "expo-keep-awake";
 import { useRouter } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -26,6 +27,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 
 const Addtask = () => {
+  useKeepAwake();
   const [title, setTitle] = useState("");
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [uiError, setUiError] = useState<null | string>(null);
@@ -40,8 +42,9 @@ const Addtask = () => {
   const colors = getThemeColors(theme);
   const router = useRouter();
 
+  // const ASSEMBLY_API_KEY = EXPO_PUBLIC_OPENAI_API_KEY;
+
   const ASSEMBLY_API_KEY = process.env.EXPO_PUBLIC_OPENAI_API_KEY;
-  // const OPENAI_API_KEY = process.env.EXPO_PUBLIC_OPENAI_API_KEY;
 
   const handleTaskSubmit = async () => {
     setUiError(null);
@@ -83,8 +86,6 @@ const Addtask = () => {
     try {
       await audioRecorder.stop(); // <-- stops recording
       const uri = audioRecorder.uri;
-      console.log("Recording saved at", uri);
-
       if (uri) {
         await transcribeAudio(uri);
       } else {
@@ -223,7 +224,7 @@ const Addtask = () => {
       setUiError("✅ Transcription complete. Review and save your task.");
     } catch (error: any) {
       console.error("AssemblyAI Transcription error:", error);
-  
+
       setUiError(
         `❌ Transcription Error: ${
           error.message || "An unknown error occurred."
@@ -307,7 +308,7 @@ const Addtask = () => {
             <Text
               style={{
                 fontSize: 14,
-                color: "#D32F2F", 
+                color: "#D32F2F",
                 textAlign: "center",
                 padding: 8,
                 borderRadius: 5,
@@ -361,7 +362,6 @@ const Addtask = () => {
           <TouchableOpacity
             onPress={handleTaskSubmit}
             activeOpacity={40}
-        
             style={{
               justifyContent: "center",
               alignItems: "center",
