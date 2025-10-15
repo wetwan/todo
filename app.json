@@ -39,14 +39,13 @@
           }
         }
       ],
-       "expo-audio",
-        {
-          "microphonePermission": "Allow todo to access your microphone."
-        }
+       "expo-audio"
+      
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
     }
+  
   }
 }
