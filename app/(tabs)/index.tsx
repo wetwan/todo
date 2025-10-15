@@ -1,10 +1,11 @@
+import Search from "@/components/search";
 import { getThemeColors } from "@/hooks/theme";
 import { useTask } from "@/store/taskStore";
 import { useTheme } from "@/store/themestore";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
 import Fontisto from "@expo/vector-icons/Fontisto";
-import React from "react";
+import React, { useState } from "react";
 import { FlatList, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -28,6 +29,12 @@ const Index = () => {
   const colors = getThemeColors(theme);
 
   const deleteTask = useTask((task) => task.removeTask);
+
+  const [title, setTitle] = useState("");
+
+  const searchTitle = completedTasks.filter((t) =>
+    t.title.toLowerCase().includes(title.toLowerCase())
+  );
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -68,9 +75,11 @@ const Index = () => {
           </Pressable>
         </View>
 
+        <Search colors={colors} title={title} setTitle={setTitle} />
+
         <FlatList
           contentContainerStyle={{ padding: 20, flex: 1 }}
-          data={completedTasks}
+          data={searchTitle}
           keyExtractor={(item) => item.id}
           renderItem={({ item: task }) => (
             <Pressable

@@ -1,14 +1,31 @@
 import React from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { TextInput, View } from "react-native";
 
-const Search = () => {
+import Ionicons from "@expo/vector-icons/Ionicons";
+
+const Search = ({
+  colors,
+  title,
+  setTitle,
+}: {
+  colors: {
+    background: string;
+    text: string;
+    primary: string;
+    card: string;
+  };
+  title: string;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   return (
     <View
       style={{
-        width: "80%",
+        width: "100%",
         padding: 12,
         alignItems: "center",
         justifyContent: "center",
+        flexDirection: "row",
+        position: "relative",
       }}
     >
       <TextInput
@@ -19,7 +36,7 @@ const Search = () => {
           color: colors.primary,
           paddingHorizontal: 15,
           padding: 20,
-          width: "90%",
+          flex: 1,
         }}
         placeholderTextColor={colors.text}
         keyboardType="default"
@@ -27,23 +44,12 @@ const Search = () => {
         placeholder="Enter your task"
         onChangeText={(e) => setTitle(e)}
       />
-
-      <TouchableOpacity
-        activeOpacity={40}
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          marginBlock: 20,
-          borderWidth: 1,
-          width: "60%",
-          marginHorizontal: "auto",
-          paddingBlock: 20,
-          borderColor: colors.primary,
-          backgroundColor: colors.text,
-        }}
-      >
-        <Text style={{ color: colors.primary }}>Submit</Text>
-      </TouchableOpacity>
+      <Ionicons
+        name="search"
+        size={24}
+        color="black"
+        style={{ position: "absolute" ,right: 20}}
+      />
     </View>
   );
 };
