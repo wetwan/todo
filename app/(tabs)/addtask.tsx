@@ -394,7 +394,7 @@ const Addtask = () => {
             backgroundColor: colors.text,
           }}
           onPress={isRecording ? stopRecording : record}
-          disabled={isTranscribing} // Disable while transcribing
+          disabled={isTranscribing}
         >
           {!isRecording ? (
             <Entypo name="mic" size={24} color={"gray"} />

@@ -47,8 +47,8 @@ const Search = ({
       <Ionicons
         name="search"
         size={24}
-        color="black"
-        style={{ position: "absolute" ,right: 20}}
+        color={colors.primary}
+        style={{ position: "absolute", right: 20 }}
       />
     </View>
   );
