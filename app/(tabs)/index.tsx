@@ -10,15 +10,19 @@ import { FlatList, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Index = () => {
-  const Task = useTask((task) => task.todos);
-
+  // theme comtrollers
   const toggleTheme = useTheme((task) => task.toggleTheme);
   const theme = useTheme((task) => task.theme);
+  const colors = getThemeColors(theme);
 
+  // task controllers from store
+
+  const Task = useTask((task) => task.todos);
   const clearTask = useTask((d) => d.clearTodos);
-
   const toggleTodo = useTask((s) => s.toggleTodo);
 
+  // function for task sorting by time ,completedTasks, and search by title
+  const [title, setTitle] = useState("");
   const sortedTasks = Task.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
@@ -26,11 +30,7 @@ const Index = () => {
     (a, b) => Number(a.completed) - Number(b.completed)
   );
 
-  const colors = getThemeColors(theme);
-
   const deleteTask = useTask((task) => task.removeTask);
-
-  const [title, setTitle] = useState("");
 
   const searchTitle = completedTasks.filter((t) =>
     t.title.toLowerCase().includes(title.toLowerCase())
@@ -44,6 +44,8 @@ const Index = () => {
           backgroundColor: colors.background,
         }}
       >
+        {/* header  */}
+
         <View
           style={{
             flexDirection: "row",
@@ -75,7 +77,10 @@ const Index = () => {
           </Pressable>
         </View>
 
+        {/* search components  */}
         <Search colors={colors} title={title} setTitle={setTitle} />
+
+        {/* display of task  */}
 
         <FlatList
           contentContainerStyle={{ padding: 20, flex: 1 }}

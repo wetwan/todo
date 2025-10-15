@@ -28,16 +28,22 @@ import { v4 as uuidv4 } from "uuid";
 
 const Addtask = () => {
   useKeepAwake();
+
+  // useState
   const [title, setTitle] = useState("");
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [uiError, setUiError] = useState<null | string>(null);
 
+  // recording sound apis
   const audioRecorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY);
   const recorderState = useAudioRecorderState(audioRecorder);
 
   const isRecording = recorderState.isRecording;
 
+  // task from task store
   const setTask = useTask((task) => task.addTask);
+
+  // theme controllers
   const theme = useTheme((task) => task.theme);
   const colors = getThemeColors(theme);
   const router = useRouter();
@@ -45,6 +51,8 @@ const Addtask = () => {
   // const ASSEMBLY_API_KEY = EXPO_PUBLIC_OPENAI_API_KEY;
 
   const ASSEMBLY_API_KEY = process.env.EXPO_PUBLIC_OPENAI_API_KEY;
+
+  // submit task
 
   const handleTaskSubmit = async () => {
     setUiError(null);
@@ -76,8 +84,6 @@ const Addtask = () => {
       setUiError("Failed to start recording. Check permissions.");
       console.error("Failed to start recording", error);
     }
-
-    // clear previous transcript
   };
 
   // Stop recording and send to Whisper
@@ -97,52 +103,7 @@ const Addtask = () => {
     }
   };
 
-  // Send audio file to OpenAI Whisper API
-
-  // const transcribeAudio = async (uri: string) => {
-  //   setIsTranscribing(true);
-  //   const filename = uri.split("/").pop() || "voice.m4a";
-  //   const fileType = filename.endsWith(".wav") ? "audio/wav" : "audio/m4a";
-
-  //   try {
-  //     const formData = new FormData();
-  //     formData.append("file", {
-  //       uri,
-  //       type: fileType,
-  //       name: filename,
-  //     } as any);
-  //     formData.append("model", "whisper-1");
-  //     formData.append("language", "en");
-
-  //     const res = await fetch(
-  //       "https://api.openai.com/v1/audio/transcriptions",
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           Authorization: `Bearer ${OPENAI_API_KEY}`,
-  //           "Content-Type": "multipart/form-data",
-  //         },
-  //         body: formData,
-  //       }
-  //     );
-
-  //     const data = await res.json();
-
-  //     if (res.ok) {
-  //       setTitle(data.text.trim());
-  //       setUiError(
-  //         "Transcription complete. Please review and submit the task."
-  //       );
-  //     } else {
-  //       throw new Error(data.error?.message || "Failed to transcribe audio");
-  //     }
-  //   } catch (err: any) {
-  //     setUiError(`Transcription Error: ${err.message}`);
-  //     console.error(err);
-  //   } finally {
-  //     setIsTranscribing(false);
-  //   }
-  // };
+  // Send audio file to AssemblyAI API
 
   const transcribeAudio = async (uri: string) => {
     setIsTranscribing(true);
@@ -303,6 +264,7 @@ const Addtask = () => {
           Add your task{" "}
         </Text>
 
+        {/* errors form the oprations */}
         <View style={{ minHeight: 40, marginBottom: 20, alignItems: "center" }}>
           {uiError && (
             <Text
@@ -318,6 +280,9 @@ const Addtask = () => {
               🚨 {uiError}
             </Text>
           )}
+
+          {/* isTranscribing */}
+
           {isTranscribing && (
             <View
               style={{ flexDirection: "row", alignItems: "center", padding: 8 }}
@@ -334,6 +299,9 @@ const Addtask = () => {
             </View>
           )}
         </View>
+
+        {/* input for task  */}
+
         <View
           style={{
             width: "80%",
@@ -377,6 +345,9 @@ const Addtask = () => {
             <Text style={{ color: colors.primary }}>Submit</Text>
           </TouchableOpacity>
         </View>
+
+        {/* voive button  */}
+
         <Pressable
           style={{
             position: "absolute",
