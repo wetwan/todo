@@ -34,5 +34,6 @@ A React Native Todo app that allows users to **create tasks manually or via voic
 ```bash
 git clone https://github.com/wetwan/todo.git
 cd todo
+npm install
 
 - the api key will be attached to the email 
